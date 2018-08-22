@@ -8,12 +8,16 @@ var lastGuess = document.querySelector('.last-guess');
 var number = document.querySelector('.number');
 var inputReaction = document.querySelector('.input-reaction');
 var rangeButton = document.querySelector('.range-button');
-var minRange = 1 || userMax;
-var maxRange = 100 || userMin;
+var gif = document.querySelector('.gif');
+var minRange = parseInt(userMin.value);
+var maxRange = parseInt(userMax.value);
+var parsedMin = parseInt(userMin.value);
+var parsedMax = parseInt(userMax.value);
 
 var generateNumber = function(){
-  return Math.ceil(Math.random() * (maxRange - minRange)) + minRange;
+  return Math.ceil(Math.random() * (parsedMax - parsedMin)) + parsedMin;
 }
+
 var randomNumber = generateNumber();
 console.log(randomNumber);
 
@@ -28,12 +32,12 @@ function enableTopButtons() {
   if (textGuess.value === '') {
     guessButton.disabled = true;
     clearButton.disabled = true;
-    resetButton.disabled = true;
+    resetButton.disabled = false;
   }  else {
     guessButton.disabled = false;
     clearButton.disabled = false;
     resetButton.disabled = false;
-  }
+  };
 };
 
 function enableBottomButtons() {
@@ -41,25 +45,42 @@ function enableBottomButtons() {
     rangeButton.disabled = true;
   } else {
     rangeButton.disabled = false;
-  }
+  };
 };
 
 function submitGuess(event) {
   event.preventDefault();
+  var parsedMin = parseInt(userMin.value);
+  var parsedMax = parseInt(userMax.value);
   var parsedInteger = parseInt(textGuess.value);
   number.innerText = parsedInteger;
-  if (parsedInteger > randomNumber && parsedInteger < 101 ) {
+  if (parsedInteger > randomNumber && parsedInteger < (parsedMax + 1) ) {
     inputReaction.innerText = 'That is too High';
-  } else if (parsedInteger < randomNumber && parsedInteger > 0) {
+    // gif.disabled = true;
+    console.log('maxRange', maxRange);
+    console.log('if1');
+  } else if (parsedInteger < randomNumber && parsedInteger > (parsedMin - 1)) {
     inputReaction.innerText = 'That is too Low';
+    // gif.disabled = true
+    console.log('if2')
   } else if (parsedInteger === randomNumber) {
-    inputReaction.innerText = 'WINNER WINNER CHICKEN DINNER!!!!! Press reset to make it harder!';
-    minRange -= 10;
-    maxRange += 10;
+    inputReaction.innerText = 'WINNER WINNER CHICKEN DINNER! Press Reset to Increase the Range';
+    parsedMax += 10;
+    parsedMin -= 10;
+    randomNumber = generateNumber();
+    console.log('if3')
+    console.log('new random number:', randomNumber)
+    console.log('New Parsed Max:', parsedMax)
+  //   inputReaction.addEventListener('click', function () {
+  //   gif.classList.toggle('display');
+  // });
   } else {
-    inputReaction.innerText = 'ERROR!!!Please Select a Number Between 1-100'
-    }
+    console.log('else');
+    inputReaction.innerText = 'ERROR!!!Please Select a Number Within the Range'
+    };
+  textGuess.value = '';
   }
+  
   textGuess.value = '';
 
 function clearText(event) {
@@ -73,7 +94,7 @@ function reset(event) {
   console.log(randomNumber);
   number.innerText = '--';
   textGuess.value = '';
-}
+};
 
 function userNumberSubmit(event) {
   event.preventDefault();
@@ -83,6 +104,8 @@ function userNumberSubmit(event) {
   var parsedMax = parseInt(userMax.value);
   console.log('parsed min:', parsedMin);
   console.log('parsed max:', parsedMax);
+  randomNumber = generateNumber();
+  console.log(randomNumber);
 };
 
 

@@ -5,6 +5,7 @@
   font-weight: 300;
   font-family: 'Open Sans';
 }
+
 /*body {
   font-weight: 300 lighter;
 }*/
@@ -16,10 +17,12 @@ header {
   color: #ed458b;
   font-weight:700;
 }
+
 h1 {
   font-weight: 700;
   font-size: 3rem;
-}
+} 
+
 .guesser {
   color: #e6e7e8;
   font-weight: 300;
@@ -33,35 +36,45 @@ h1 {
   border-radius: 30px;
   font-family: 'Open Sans'
 }
+
 .submit:hover {
   background-color: #eb008b;
 }
+
 .submit:disabled {
   background-color: #d0d2d3;
   color: white;
 }
+
 .small {
   width: 80px;
 }
+
 .large {
   width: 200px;
 }
+
 .top-buttons {
   margin: 10px;
 }
+
 p {
   color: #eb008b;
   font-size: 14rem;
   margin: 10px;
   /*font-weight: 300;*/
 }
+
 .text-guess {
   width: 30%;
   margin-top: 20px;
 }
+
 h2 {
   color: #404041;
 }
 
-
+.gif {
+  display: none;
+}
 
