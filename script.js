@@ -1,25 +1,30 @@
 var textGuess = document.querySelector('.text-guess');
+var userMax = document.querySelector('.max')
+var userMin = document.querySelector('.min')
 var guessButton = document.querySelector('.guess-button');
 var clearButton = document.querySelector('.clear-button');
 var resetButton = document.querySelector('.reset-button');
 var lastGuess = document.querySelector('.last-guess');
 var number = document.querySelector('.number');
 var inputReaction = document.querySelector('.input-reaction');
-var minRange = 1;
-var maxRange = 100;
+var rangeButton = document.querySelector('.range-button');
+var minRange = 1 || userMax;
+var maxRange = 100 || userMin;
 
 var generateNumber = function(){
   return Math.ceil(Math.random() * (maxRange - minRange)) + minRange;
 }
-var randomNumber = generateNumber()
-console.log(randomNumber)
+var randomNumber = generateNumber();
+console.log(randomNumber);
 
-textGuess.addEventListener('keyup', enableButtons);
+textGuess.addEventListener('keyup', enableTopButtons);
+userMax.addEventListener('keyup', enableBottomButtons);
 guessButton.addEventListener('click', submitGuess);
 clearButton.addEventListener('click', clearText);
 resetButton.addEventListener('click', reset);
+rangeButton.addEventListener('click', userNumberSubmit);
 
-function enableButtons() {
+function enableTopButtons() {
   if (textGuess.value === '') {
     guessButton.disabled = true;
     clearButton.disabled = true;
@@ -31,11 +36,19 @@ function enableButtons() {
   }
 };
 
+function enableBottomButtons() {
+  if (userMax.value === '') {
+    rangeButton.disabled = true;
+  } else {
+    rangeButton.disabled = false;
+  }
+};
+
 function submitGuess(event) {
   event.preventDefault();
   var parsedInteger = parseInt(textGuess.value);
   number.innerText = parsedInteger;
-  if (parsedInteger > randomNumber && parsedInteger < 101) {
+  if (parsedInteger > randomNumber && parsedInteger < 101 ) {
     inputReaction.innerText = 'That is too High';
   } else if (parsedInteger < randomNumber && parsedInteger > 0) {
     inputReaction.innerText = 'That is too Low';
@@ -44,7 +57,7 @@ function submitGuess(event) {
     minRange -= 10;
     maxRange += 10;
   } else {
-    inputReaction.innerText = 'Please Select a Number Between 1-100'
+    inputReaction.innerText = 'ERROR!!!Please Select a Number Between 1-100'
     }
   }
   textGuess.value = '';
@@ -56,9 +69,24 @@ function clearText(event) {
 
 function reset(event) {
   event.preventDefault();
-  randomNumber = generateNumber()
-  console.log(randomNumber)
+  randomNumber = generateNumber();
+  console.log(randomNumber);
+  number.innerText = '--';
+  textGuess.value = '';
 }
+
+function userNumberSubmit(event) {
+  event.preventDefault();
+  console.log('parsed function not broken')
+  number.innerText = '--';
+  var parsedMin = parseInt(userMin.value);
+  var parsedMax = parseInt(userMax.value);
+  console.log('parsed min:', parsedMin);
+  console.log('parsed max:', parsedMax);
+};
+
+
+
 
 
 
